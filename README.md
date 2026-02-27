@@ -11,10 +11,11 @@ Ce projet est un exemple d’application React configurée avec Vite, intégrant
 
 ## Liens rapides
 
-- Dépôt GitHub : https://github.com/Ynov-M1/Test_cycle_TDD
-- Application déployée : https://ynov-m1.github.io/Test_cycle_TDD/
-- Documentation technique (JSDoc) : https://ynov-m1.github.io/Test_cycle_TDD/docs/
-- Tableau de bord Codecov : https://codecov.io/gh/Ynov-M1/Test_cycle_TDD
+- Dépôt GitHub : https://github.com/Galateee/robin-ci-cd-ynov
+- Application déployée : https://galateee.github.io/robin-ci-cd-ynov/
+- Documentation technique (JSDoc) : https://galateee.github.io/robin-ci-cd-ynov/docs/
+- Tableau de bord Codecov : https://app.codecov.io/gh/Galateee/robin-ci-cd-ynov
+- Package NPM : https://www.npmjs.com/package/robin-ci-cd-ynov
 
 ## Prérequis
 
