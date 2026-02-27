@@ -6,8 +6,9 @@ Ce projet est un exemple d’application React configurée avec Vite, intégrant
 - Tests end-to-end (E2E) avec Cypress
 - Suivi de couverture de code via Codecov
 - Génération automatique de documentation technique avec JSDoc
-- Workflow CI/CD GitHub Actions pour build, tests et déploiement sur GitHub Pages
-- Gestion d’état global pour la liste des utilisateurs et persistance via localStorage
+- Workflow CI/CD GitHub Actions pour build, tests, publication NPM et déploiement sur GitHub Pages
+- Gestion d'état global pour la liste des utilisateurs et persistance via localStorage
+- Distribution du composant `PersonForm` en tant que package NPM réutilisable
 
 ## Liens rapides
 
@@ -16,6 +17,20 @@ Ce projet est un exemple d’application React configurée avec Vite, intégrant
 - Documentation technique (JSDoc) : https://galateee.github.io/robin-ci-cd-ynov/docs/
 - Tableau de bord Codecov : https://app.codecov.io/gh/Galateee/robin-ci-cd-ynov
 - Package NPM : https://www.npmjs.com/package/robin-ci-cd-ynov
+
+## Utiliser le package NPM
+
+```bash
+npm install robin-ci-cd-ynov
+```
+
+```jsx
+import { PersonForm } from 'robin-ci-cd-ynov';
+
+function App() {
+  return <PersonForm addPerson={(person) => console.log(person)} />;
+}
+```
 
 ## Prérequis
 
@@ -125,8 +140,30 @@ pnpm run doc
 
 ## Pipeline CI/CD
 
-- Build de l’application via Vite
-- Exécution des tests unitaires, d’intégration et E2E (Cypress headless)
-- Aucun appel réseau réel : Axios mocké en tests unitaires et cy.intercept en E2E
+Le pipeline GitHub Actions est structuré en 3 jobs en cascade :
+
+### Job 1 : `build-and-test`
+- Build de l'application via Vite
+- Exécution des tests unitaires, d'intégration et E2E (Cypress headless)
+- Aucun appel réseau réel : Axios mocké en tests unitaires et `cy.intercept` en E2E
 - Upload des rapports de couverture vers Codecov
+- Génération de la documentation JSDoc
+- Upload de l'artifact pour GitHub Pages
+
+### Job 2 : `publish-npm` (nécessite `build-and-test`)
+- Compare la version du `package.json` local avec la version publiée sur NPM
+- **Si la version locale est supérieure** → build le package avec Babel et publie sur NPM
+- **Si la version est identique** → skip silencieusement sans faire échouer le pipeline
+- Authentification via le secret `NPM_TOKEN`
+
+### Job 3 : `deploy` (nécessite `publish-npm`)
+- Déploiement automatique sur GitHub Pages
+
+### Semantic Versioning
+Le projet suit les règles SemVer pour les publications NPM :
+| Type de changement | Incrément | Exemple |
+|---|---|---|
+| Correction de bug | Patch | `1.0.0` → `1.0.1` |
+| Nouvelle fonctionnalité | Minor | `1.0.1` → `1.1.0` |
+| Rupture de compatibilité | Major | `1.1.0` → `2.0.0` |
 - Déploiement sur GitHub Pages si tous les tests passentement storage permet de synchroniser l’état entre plusieurs onglets/fenêtres : si un utilisateur est ajouté dans un onglet, la liste se met à jour automatiquement dans les autres.
