@@ -1,0 +1,23 @@
+# Tests
+test/
+coverage/
+
+# Source (on distribue uniquement dist/)
+src/
+
+# Config & outils de dev
+cypress/
+public/
+.github/
+vite.config.js
+jest.config.cjs
+babel.config.cjs
+eslint.config.js
+jsdoc.json
+*.iml
+
+# Node modules
+node_modules/
+
+# Logs
+*.log
