@@ -57,7 +57,7 @@ function App() {
     };
 
     return (
-        <BrowserRouter basename="/Test_cycle_TDD/">
+        <BrowserRouter basename="/robin-ci-cd-ynov/">
             <Routes>
                 <Route path="/" element={<Home persons={persons} loading={loading} serverError={serverError}/>} />
                 <Route path="/register" element={<Register addPerson={addPerson} />} />

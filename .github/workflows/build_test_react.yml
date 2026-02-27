@@ -45,7 +45,7 @@ jobs:
         with:
           working-directory: app
           start: pnpm dev
-          wait-on: 'http://localhost:5173/Test_cycle_TDD/'
+          wait-on: 'http://localhost:5173/robin-ci-cd-ynov/'
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v5
