@@ -128,7 +128,7 @@ jobs:
 
       - name: Build MySQL Image
         run: |
-          cd app/sqlfiles
+          cd app/server
           docker build -f Dockerfile.mysql -t mysql-ynov:latest .
 
       - name: Build API Image
