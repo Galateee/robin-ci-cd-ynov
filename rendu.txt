@@ -4,4 +4,4 @@ LIVRABLE - Activité 2 : Pipeline de build et test d'intégration pour API Pytho
 https://github.com/Galateee/robin-ci-cd-ynov
 
 2. Lien vers l'image publique sur Docker Hub :
-https://hub.docker.com/r/robinvdl78/robin-ci-cd-ynov
+https://hub.docker.com/r/robinvdl78/robin-ci-cd-ynov/tags
