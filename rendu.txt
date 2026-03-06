@@ -1,0 +1,7 @@
+LIVRABLE - Activité 2 : Pipeline de build et test d'intégration pour API Python
+
+1. Lien vers le repository GitHub :
+https://github.com/Galateee/robin-ci-cd-ynov
+
+2. Lien vers l'image publique sur Docker Hub :
+https://hub.docker.com/r/robinvdl78/robin-ci-cd-ynov
