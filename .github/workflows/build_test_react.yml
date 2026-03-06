@@ -134,7 +134,7 @@ jobs:
       - name: Build API Image
         run: |
           cd app/server
-          docker build -t api-python-ynov:latest .
+          docker build -t robin-ci-cd-ynov:latest .
 
       - name: Create Docker Network
         run: docker network create ynov-network
@@ -151,8 +151,14 @@ jobs:
       - name: Wait for MySQL to be ready
         run: |
           echo "Waiting for MySQL to be ready..."
-          sleep 15
-          docker exec mysql-container mysqladmin ping -h localhost -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }} --silent
+          for i in $(seq 1 20); do
+            if docker exec mysql-container mysqladmin ping -h localhost -u root --password=${{ secrets.MYSQL_ROOT_PASSWORD }} --silent 2>/dev/null; then
+              echo "MySQL is ready!"
+              break
+            fi
+            echo "Attempt $i/20 - waiting..."
+            sleep 3
+          done
 
       - name: Start API Container
         run: |
@@ -164,7 +170,7 @@ jobs:
             -e MYSQL_USER=root \
             -e MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }} \
             -e MYSQL_DATABASE=ynov_ci \
-            api-python-ynov:latest
+            robin-ci-cd-ynov:latest
 
       - name: Wait for API to be ready
         run: |
@@ -208,10 +214,10 @@ jobs:
 
       - name: Tag and Push API Image to Docker Hub
         run: |
-          docker tag api-python-ynov:latest ${{ secrets.DOCKERHUB_USERNAME }}/api-python-ynov:latest
-          docker tag api-python-ynov:latest ${{ secrets.DOCKERHUB_USERNAME }}/api-python-ynov:${{ github.sha }}
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/api-python-ynov:latest
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/api-python-ynov:${{ github.sha }}
+          docker tag robin-ci-cd-ynov:latest ${{ secrets.DOCKERHUB_USERNAME }}/robin-ci-cd-ynov:latest
+          docker tag robin-ci-cd-ynov:latest ${{ secrets.DOCKERHUB_USERNAME }}/robin-ci-cd-ynov:${{ github.sha }}
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/robin-ci-cd-ynov:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/robin-ci-cd-ynov:${{ github.sha }}
 
   deploy:
     needs: docker-integration-test
