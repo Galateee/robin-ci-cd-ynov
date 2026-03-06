@@ -215,9 +215,7 @@ jobs:
       - name: Tag and Push API Image to Docker Hub
         run: |
           docker tag robin-ci-cd-ynov:latest ${{ secrets.DOCKERHUB_USERNAME }}/robin-ci-cd-ynov:latest
-          docker tag robin-ci-cd-ynov:latest ${{ secrets.DOCKERHUB_USERNAME }}/robin-ci-cd-ynov:${{ github.sha }}
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/robin-ci-cd-ynov:latest
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/robin-ci-cd-ynov:${{ github.sha }}
 
   deploy:
     needs: docker-integration-test
