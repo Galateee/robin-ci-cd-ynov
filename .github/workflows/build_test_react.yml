@@ -56,13 +56,16 @@ jobs:
           docker compose logs api
           exit 1
 
+      - name: Install Cypress binary
+        run: cd app && pnpm exec cypress install
+
       - name: Run Cypress E2E on real environment
         uses: cypress-io/github-action@v6
         with:
           install: false
           working-directory: app
           wait-on: "http://localhost:5173/,http://localhost:8000/users"
-          command: pnpm cypress run --browser electron
+          command: pnpm exec cypress run --browser electron
 
       - name: Stop stack
         if: always()
