@@ -5,12 +5,13 @@ on:
     branches: [master]
 
 env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
 
 jobs:
   fullstack-e2e:
     runs-on: ubuntu-latest
     env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
       MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
       MYSQL_DATABASE: ynov_ci
       MYSQL_APP_USER: appuser
@@ -95,6 +96,8 @@ jobs:
   publish-npm:
     needs: fullstack-e2e
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
 
     steps:
       - name: Checkout repository
@@ -149,6 +152,8 @@ jobs:
       pages: write
       id-token: write
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
