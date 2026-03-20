@@ -1,5 +1,6 @@
 import mysql.connector
 import os
+import time
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -25,14 +26,26 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-# Create a connection to the database
-conn = mysql.connector.connect(
-    database=os.getenv("MYSQL_DATABASE"),
-    user=os.getenv("MYSQL_USER"),
-    password=os.getenv("MYSQL_ROOT_PASSWORD"),
-    port=3306,
-    host=os.getenv("MYSQL_HOST")
-)
+def connect_with_retry(max_retries=30, delay_seconds=2):
+    last_error = None
+    for _ in range(max_retries):
+        try:
+            return mysql.connector.connect(
+                database=os.getenv("MYSQL_DATABASE"),
+                user=os.getenv("MYSQL_USER"),
+                password=os.getenv("MYSQL_PASSWORD", os.getenv("MYSQL_ROOT_PASSWORD")),
+                port=3306,
+                host=os.getenv("MYSQL_HOST")
+            )
+        except mysql.connector.Error as error:
+            last_error = error
+            time.sleep(delay_seconds)
+
+    raise last_error
+
+
+# Create a resilient connection to the database at startup.
+conn = connect_with_retry()
 
 @app.get("/users")
 async def get_users():

@@ -4,12 +4,12 @@ services:
       context: ./app
       dockerfile: server/Dockerfile.mysql
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_APP_USER}
-      MYSQL_PASSWORD: ${MYSQL_APP_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpass}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-ynov_ci}
+      MYSQL_USER: ${MYSQL_APP_USER:-appuser}
+      MYSQL_PASSWORD: ${MYSQL_APP_PASSWORD:-apppass}
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD:-rootpass}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -31,9 +31,10 @@ services:
       - "8000:8000"
     environment:
       MYSQL_HOST: db
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_APP_USER}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_APP_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-ynov_ci}
+      MYSQL_USER: ${MYSQL_APP_USER:-appuser}
+      MYSQL_PASSWORD: ${MYSQL_APP_PASSWORD:-apppass}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_APP_PASSWORD:-apppass}
     volumes:
       - ./app/server:/server
     command: uvicorn main:app --host 0.0.0.0 --port 8000
@@ -56,7 +57,7 @@ services:
       - "5173:5173"
     environment:
       VITE_API_HOST: localhost
-      VITE_API_PORT: ${API_PORT}
+      VITE_API_PORT: ${API_PORT:-8000}
     volumes:
       - ./app:/app
       - /app/node_modules
