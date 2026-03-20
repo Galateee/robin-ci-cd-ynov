@@ -71,7 +71,7 @@ jobs:
         run: cd app && pnpm exec cypress install
 
       - name: Run Cypress E2E on real environment
-        uses: cypress-io/github-action@v6
+        uses: cypress-io/github-action@v7
         with:
           install: false
           working-directory: app
@@ -85,7 +85,7 @@ jobs:
         uses: actions/configure-pages@v5
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: ./app/dist
 
