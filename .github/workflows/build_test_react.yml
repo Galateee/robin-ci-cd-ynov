@@ -93,6 +93,7 @@ jobs:
         run: docker compose -f docker-compose.yml down -v
 
   publish-npm:
+    if: github.ref == 'refs/heads/master'
     needs: fullstack-e2e
     runs-on: ubuntu-latest
     env:
@@ -146,6 +147,7 @@ jobs:
         run: echo "Version already published. Skipping npm publish."
 
   deploy:
+    if: github.ref == 'refs/heads/master'
     needs: fullstack-e2e
     permissions:
       pages: write
