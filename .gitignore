@@ -6,3 +6,10 @@ __pycache__/
 .env
 .env.*
 !.env.example
+
+# Terraform / Registry sensitive and generated files
+app/registry/.terraform/
+app/registry/.terraform.tfstate.lock.info
+app/registry/*.tfstate
+app/registry/*.tfstate.*
+app/registry/*.pem
